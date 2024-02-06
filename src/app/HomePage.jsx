@@ -1,4 +1,4 @@
-//import { ContactForm } from '../components';
+import ContactForm from './components/ContactForm';
 import Image from 'next/image';
 import "./styles/HomePage.css";
 
@@ -31,6 +31,7 @@ const HomePage = () => {
           </p>
         </div>
       </div>
+      <ContactForm />
     </main>  
   )
 }
