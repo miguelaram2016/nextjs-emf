@@ -132,7 +132,7 @@ const MacronutrientCalc = () => {
             {(macros.fats / tdee * 100).toFixed(2)}% fats
           </p>
           <p className="text-sm text-gray-400 mt-4">
-            Note: The macronutrient ratios provided here are general recommendations and may vary depending on individual needs, goals, and dietary preferences. It's always recommended to consult with a healthcare professional or registered dietitian for personalized advice.
+            Note: The macronutrient ratios provided here are general recommendations and may vary depending on individual needs, goals, and dietary preferences. It&apos;s always recommended to consult with a healthcare professional or registered dietitian for personalized advice.
           </p>
         </div>
       )}
