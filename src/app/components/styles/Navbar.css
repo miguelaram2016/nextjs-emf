@@ -1,0 +1,140 @@
+.navbar-container {
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgba(0,2,106,1) 100%);
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10%;
+  padding: 1.25rem;
+  position: fixed;
+  top: 1%;
+  margin-inline: 2.5%;
+  z-index: 1000;
+  border-radius: 15px; /* Added for rounded appearance */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Added shadow for floating effect */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.scrolled-navbar {
+  background-color: black;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5); /* Enhanced shadow on scroll */
+}
+
+.navbar-content {
+  width: 100%;
+  max-width: 100rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Equivalent to gap-2 in Tailwind */
+}
+
+.nav-logo img {
+  width: 4rem; 
+  height: 4rem; 
+  object-fit: contain;
+}
+
+.nav-title {
+  color: white;
+  font-size: 1.25rem; /* Equivalent to text-[20px] in Tailwind */
+  cursor: pointer;
+  display: flex;
+}
+
+.nav-links {
+  list-style-type: none;
+  display: none; 
+  flex-direction: row;
+  gap: 0.5rem; 
+  color: gray;
+}
+
+.nav-links li {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.nav-links li:hover,
+.navlinks-active {
+  color: white;
+  font-weight: bold;
+}
+
+@media screen and (min-width: 640px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-button {
+  display: none;
+}
+
+@media screen and (max-width: 640px) {
+  .nav-button {
+    display: flex;
+    flex: 1 1 0%;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.nav-button-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  cursor: pointer;
+  position: absolute;
+  z-index: 200;
+}
+
+.nav-dropdown-menu {
+  padding: 1.5rem;
+  background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  margin-inline: 1rem;
+  min-width: 140px;
+  z-index: 10;
+  border-radius: 1rem;
+}
+
+.nav-links-dropdown {
+  list-style-type: none;
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex: 1 1 0%;
+  gap: 1rem; 
+  color: gray;
+}
+
+.nav-dropdown-menu li:hover{
+  color: white;
+  font-weight: bold;
+}
+
+@keyframes navbarEntry {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.navbar-container {
+  animation: navbarEntry 0.5s ease-out;
+}

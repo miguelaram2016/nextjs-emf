@@ -1,0 +1,112 @@
+.home-container {
+  color: white;
+  position: relative;
+  margin-inline: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.intro-section {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInUp 1s ease;
+}
+
+.background-image-container {
+  position: absolute;
+  z-index: -50;
+  opacity: 0.5;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  animation: fadeIn 2s ease-out;
+}
+
+.background-image {
+  max-width: 60rem; 
+  transform: scale(1.1);
+  transition: transform 0.5s ease-in-out;
+}
+
+.background-image:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.intro-text-container {
+  background: linear-gradient(to right, rgba(33, 71, 125,.3), rgba(69, 168, 214,.3));
+  padding: 6rem;
+  border-radius: 1rem;
+  animation: slideInLeft 1.5s ease-out;
+}
+
+.intro-heading {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.intro-text {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.founder-intro {
+  border-radius: 20px;
+  margin-top: 4rem;
+  font-size: min(6vw, 24px);
+  font-weight: bold;
+}
+
+/* Media query for larger screens */
+@media (min-width: 1024px) {
+  .intro-section{
+    flex-direction: row;
+    justify-content: center;
+  }
+  .background-image-container{
+    position: relative;
+    opacity: 1;
+  }
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInComponent {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
