@@ -111,7 +111,7 @@ const BMICalculator = () => {
             <span className="font-bold">{category}</span>.
           </p>
           <p className="text-sm mt-2">
-            Please note that BMI is a generalization tool and may not accurately reflect an individual's health due to
+            Please note that BMI is a generalization tool and may not accurately reflect an individual&apos;s health due to
             factors such as different body types, muscle mass, and genetic factors.
           </p>
         </div>
