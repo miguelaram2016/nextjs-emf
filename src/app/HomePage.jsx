@@ -8,7 +8,7 @@ const HomePage = () => {
       <div className='intro-section'>
         <div className='background-image-container'>
           <Image 
-            src='/images/AMPM2022.png' 
+            src='/images/mar.png' 
             alt='emfBeach' 
             height={1000}
             width={1000}
