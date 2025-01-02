@@ -23,7 +23,7 @@ const HomePage = () => {
           <p className="intro-text">
             Personalized Training Programs <br></br>
             1-on-1 Support <br></br>
-            Hybrid Styles of Training <br></br>
+            Train the Way You Want <br></br>
           </p>
           <p className='founder-intro'>
             Reach your goals fast, without compromising safety <br></br>
