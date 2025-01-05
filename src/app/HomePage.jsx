@@ -24,6 +24,7 @@ const HomePage = () => {
             Personalized Training Programs <br></br>
             1-on-1 Support <br></br>
             Train the Way You Want <br></br>
+            Maintain a Healthy Lifestyle
           </p>
           <p className='founder-intro'>
             Reach your goals fast, without compromising safety <br></br>
