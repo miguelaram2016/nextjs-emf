@@ -3,7 +3,7 @@ export const services = [
     name: '1-1',
     service: '1-on-1 Training',
     price: 'As low as $60/session',
-    description: 'Science-backed training personalized to your body and goals. Using my Kinesiology background, I analyze your movement patterns and build programs that actually work — no cookie-cutter plans. Whether you\'re recovering from injury or chasing a PR, we\'ll train smart.',      
+    description: 'Science-backed training personalized to your body and goals. Using my Kinesiology background, I analyze your movement patterns and build programs that actually work — no cookie-cutter plans. Whether you&apos;re recovering from injury or chasing a PR, we&apos;ll train smart.',      
     bookingLink: 'https://cal.com/elmarfitness/personal-training-session',
     bookingLabel: 'Schedule a Session',
     image: '/training.png',
