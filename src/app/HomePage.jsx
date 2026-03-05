@@ -6,7 +6,7 @@ import "./styles/HomePage.css";
 const testimonials = [
   {
     name: "Sarah M.",
-    text: "Miguel's knowledge in Kinesiology completely transformed my approach to fitness. I've never felt stronger!",
+    text: "Miguel&apos;s knowledge in Kinesiology completely transformed my approach to fitness. I&apos;ve never felt stronger!",
   },
   {
     name: "James T.",
@@ -63,7 +63,7 @@ const HomePage = () => {
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="testimonial-card">
-              <p className="testimonial-text">"{testimonial.text}"</p>
+              <p className="testimonial-text">&quot;{testimonial.text}&quot;</p>
               <p className="testimonial-name">- {testimonial.name}</p>
             </div>
           ))}
