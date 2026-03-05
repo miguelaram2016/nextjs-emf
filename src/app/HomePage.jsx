@@ -1,6 +1,22 @@
 import ContactForm from './components/ContactForm';
 import Image from 'next/image';
+import Link from 'next/link';
 import "./styles/HomePage.css";
+
+const testimonials = [
+  {
+    name: "Sarah M.",
+    text: "Miguel's knowledge in Kinesiology completely transformed my approach to fitness. I've never felt stronger!",
+  },
+  {
+    name: "James T.",
+    text: "Lost 30 lbs in 4 months while building muscle. His evidence-based approach works. Highly recommend!",
+  },
+  {
+    name: "Amanda L.",
+    text: "Training with Miguel helped me recover from my injury stronger than before. He truly cares about your progress.",
+  },
+];
 
 const HomePage = () => {
   return (
@@ -30,8 +46,41 @@ const HomePage = () => {
             Reach your goals fast, without compromising safety <br></br>
             <span className='text-sm align-top'>-Miguel Ramirez</span>
           </p>
+          <div className="hero-buttons">
+            <Link href="/services" className="hero-cta-button primary">
+              Book a Session
+            </Link>
+            <Link href="/tools" className="hero-cta-button secondary">
+              Free Tools
+            </Link>
+          </div>
         </div>
       </div>
+
+      {/* Testimonials Section */}
+      <section className="testimonials-section">
+        <h2 className="testimonials-heading">What Clients Say</h2>
+        <div className="testimonials-grid">
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="testimonial-card">
+              <p className="testimonial-text">"{testimonial.text}"</p>
+              <p className="testimonial-name">- {testimonial.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Tools Preview Section */}
+      <section className="tools-preview-section">
+        <h2 className="tools-preview-heading">Free Fitness Tools</h2>
+        <p className="tools-preview-subtext">
+          Calculate your BMI, find your ideal calorie intake, or build custom workouts — all free.
+        </p>
+        <Link href="/tools" className="hero-cta-button primary">
+          Try Free Tools
+        </Link>
+      </section>
+
       <ContactForm />
     </main>  
   )

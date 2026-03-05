@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, Alert } from '@mui/material';
 import emailjs from "@emailjs/browser";
 import './styles/ContactForm.css'; // Import CSS file
 
@@ -12,6 +12,7 @@ const ContactForm = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null); // 'success' | 'error' | null
 
 
   const handleChange = (e) => {
@@ -27,6 +28,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatus(null);
 
     
     emailjs
@@ -45,19 +47,24 @@ const ContactForm = () => {
       .then(
         () => {
           setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
+          setStatus('success');
 
           setForm({
             name: "",
             email: "",
             message: "",
           });
+          
+          // Clear success message after 5 seconds
+          setTimeout(() => setStatus(null), 5000);
         },
         (error) => {
           setLoading(false);
           console.error(error);
-
-          alert("Ahh, something went wrong. Please try again.");
+          setStatus('error');
+          
+          // Clear error message after 5 seconds
+          setTimeout(() => setStatus(null), 5000);
         }
       );
   };
@@ -67,6 +74,18 @@ const ContactForm = () => {
       <div className='contact-form-title'>
         <p className=''>Let`s connect!</p>
       </div>
+      
+      {status === 'success' && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          Thanks! I'll get back to you soon.
+        </Alert>
+      )}
+      {status === 'error' && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          Something went wrong. Please try again.
+        </Alert>
+      )}
+      
       <form onSubmit={handleSubmit} className="contact-form">
         <input
           type="text"

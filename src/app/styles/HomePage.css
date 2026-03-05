@@ -57,9 +57,118 @@
 
 .founder-intro {
   border-radius: 20px;
-  margin-top: 4rem;
+  margin-top: 2rem;
   font-size: min(6vw, 24px);
   font-weight: bold;
+}
+
+/* Hero CTA Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-cta-button {
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.hero-cta-button.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.hero-cta-button.primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.hero-cta-button.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.hero-cta-button.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 4rem 2rem;
+  background: rgba(31, 41, 55, 0.5);
+  margin: 2rem 0;
+}
+
+.testimonials-heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(55, 65, 81, 0.8);
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.testimonial-name {
+  font-weight: 600;
+  color: #60a5fa;
+}
+
+/* Tools Preview Section */
+.tools-preview-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.tools-preview-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.tools-preview-subtext {
+  font-size: 1.125rem;
+  color: #9ca3af;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Media query for larger screens */
