@@ -77,7 +77,7 @@ const ContactForm = () => {
       
       {status === 'success' && (
         <Alert severity="success" sx={{ mb: 2 }}>
-          Thanks! I&apos;ll get back to you soon.
+          Thanks! I'll get back to you soon.
         </Alert>
       )}
       {status === 'error' && (

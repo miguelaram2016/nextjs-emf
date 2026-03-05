@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import "./styles/HomePage.css";
 
+// eslint-disable-next-line react/no-unescaped-entities
 const testimonials = [
   {
     name: "Sarah M.",
-    text: "Miguel&apos;s knowledge in Kinesiology completely transformed my approach to fitness. I&apos;ve never felt stronger!",
+    text: "Miguel's knowledge in Kinesiology completely transformed my approach to fitness. I've never felt stronger!",
   },
   {
     name: "James T.",
