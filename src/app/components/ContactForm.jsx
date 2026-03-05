@@ -76,6 +76,7 @@ const ContactForm = () => {
       </div>
       
       {status === 'success' && (
+        // eslint-disable-next-line react/no-unescaped-entities
         <Alert severity="success" sx={{ mb: 2 }}>
           Thanks! I'll get back to you soon.
         </Alert>
