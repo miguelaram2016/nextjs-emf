@@ -1,61 +1,26 @@
 "use client"
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { MaxSingle, OneRepMaxCalc } from './workoutUtils';
 import SquatFreeBody  from './SquatFreeBody';
 import { MacronutrientCalc, BMICalculator, TDEECalc, HealthyTips } from './nutritionUtils/';
 
+const trainingTools = [
+  { id: 'OneRepMaxCalc', title: '1RM Calculator', description: 'Estimate your one rep max from submaximal loads.', icon: '🏋️' },
+  { id: 'MaxSingle', title: 'Max Single Protocol', description: 'Warm-up protocol for testing your 1RM safely.', icon: '🔥' },
+  { id: 'SquatFreeBody', title: 'Squat Form Guide', description: 'Analyze your squat mechanics with visual feedback.', icon: '🦵' },
+];
+
+const nutritionTools = [
+  { id: 'TDEECalc', title: 'TDEE Calculator', description: 'Find your Total Daily Energy Expenditure.', icon: '⚡' },
+  { id: 'BMICalculator', title: 'BMI Calculator', description: 'Check your Body Mass Index.', icon: '📊' },
+  { id: 'MacronutrientCalc', title: 'Macro Calculator', description: 'Calculate your ideal protein, carbs, and fats.', icon: '🥗' },
+];
+
 const Tools = () => {
   const [expandedTool, setExpandedTool] = useState(null);
-  const toolContainerRef = useRef(null);
 
-  const toolDescriptions = {
-    MaxSingle: {
-      title: 'Max Single Protocol',
-      description: 'This tool helps you warm up to your one rep max attempt.'
-    },
-    OneRepMaxCalc: {
-      title: 'One Rep Max Calculator',
-      description: 'Estimate your one rep max based on other rep maxes.'
-    },
-    SquatFreeBody: {
-      title: 'Squat Free Body Diagram',
-      description: 'Analyze squat mechanics with a free body diagram.'
-    },
-    Exercises: {
-      title: 'Exercises',
-      description: 'A collection of exercises with descriptions and videos.'
-    },
-    TDEECalc: {
-      title: 'TDEE Calculator',
-      description: 'Estimate your Total Daily Energy Expenditure (TDEE).'
-    },
-    BMICalculator: {
-      title: 'BMI Calculator',
-      description: 'Calculate your Body Mass Index (BMI).'
-    },
-    MacronutrientCalc: {
-      title: 'Macronutrient Calculator',
-      description: 'Calculate recommended macronutrient distribution.'
-    }
-  };
-
-  const handleToolClick = (toolName) => {
-    setExpandedTool(expandedTool === toolName ? null : toolName);
-  };
-
-  const renderToolDescription = (toolName) => {
-    const tool = toolDescriptions[toolName];
-    return (
-      <>
-        <h3 className="text-lg font-semibold mb-2">{tool.title}</h3>
-        <p className="mb-2">{tool.description}</p>
-        <p className="mb-2">Click below to {expandedTool === toolName ? 'close' : 'open'} the {tool.title}:</p>
-      </>
-    );
-  };
-
-  const renderToolComponent = (toolName) => {
-    switch (toolName) {
+  const renderToolComponent = (toolId) => {
+    switch (toolId) {
       case 'MaxSingle':
         return <MaxSingle />;
       case 'OneRepMaxCalc':
@@ -73,27 +38,62 @@ const Tools = () => {
     }
   };
 
-  return (
-    <div className="container mx-auto py-10">
-      <HealthyTips />
-      <h1 className="text-3xl font-bold mb-6">Training Tools</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {Object.keys(toolDescriptions).map(toolName => (
-          <div key={toolName} className="flex flex-col bg-gray-800 p-4 rounded-lg">
-            {renderToolDescription(toolName)}
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none"
-              onClick={() => handleToolClick(toolName)}
-            >
-              {expandedTool === toolName ? `Close ${toolName}` : `Open ${toolName}`}
-            </button>
-          </div>
-        ))}
+  const ToolCard = ({ tool, index }) => (
+    <div 
+      className="bg-gray-800 p-5 rounded-lg hover:bg-gray-750 transition-all duration-300 cursor-pointer border border-gray-700 hover:border-blue-500"
+      onClick={() => setExpandedTool(expandedTool === tool.id ? null : tool.id)}
+    >
+      <div className="flex items-start gap-4">
+        <span className="text-3xl">{tool.icon}</span>
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold text-white mb-1">{tool.title}</h3>
+          <p className="text-gray-400 text-sm">{tool.description}</p>
+        </div>
+        <span className={`text-gray-500 transition-transform ${expandedTool === tool.id ? 'rotate-180' : ''}`}>
+          ▼
+        </span>
       </div>
+      {expandedTool === tool.id && (
+        <div className="mt-4 pt-4 border-t border-gray-700 animate-fadeIn">
+          {renderToolComponent(tool.id)}
+        </div>
+      )}
+    </div>
+  );
 
-      <div ref={toolContainerRef}>
-        {expandedTool && renderToolComponent(expandedTool)}
-      </div>
+  return (
+    <div className="container mx-auto py-10 px-4">
+      <h1 className="text-4xl font-bold text-white mb-2">Free Fitness Tools</h1>
+      <p className="text-gray-400 mb-8">Calculate, track, and optimize your fitness journey — completely free.</p>
+      
+      {/* Training Tools Section */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+          <span>🏋️</span> Training Tools
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {trainingTools.map((tool, index) => (
+            <ToolCard key={tool.id} tool={tool} index={index} />
+          ))}
+        </div>
+      </section>
+
+      {/* Nutrition Tools Section */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+          <span>🥗</span> Nutrition Tools
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {nutritionTools.map((tool, index) => (
+            <ToolCard key={tool.id} tool={tool} index={index} />
+          ))}
+        </div>
+      </section>
+
+      {/* Healthy Tips */}
+      <section>
+        <HealthyTips />
+      </section>
     </div>
   );
 };
