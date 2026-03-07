@@ -15,7 +15,7 @@ const Navbar = ({ loggedIn }) => {
   };
 
   const dashboardLink = loggedIn ? "Dashboard" : "Log In";
-  const dashboardPath = loggedIn ? "/dashboard" : "/login";
+  const dashboardPath = loggedIn ? "/dashboard" : "https://kinetic-flax.vercel.app";
 
   return (
     <nav className="navbar-container">
