@@ -1,0 +1,39 @@
+.contact-form-container {
+  background: linear-gradient(to right, rgba(33, 71, 125, .1), rgba(69, 168, 214, .1));
+  width: min(90%, 1000px);
+  margin-top: 1rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  margin-inline: auto;
+  padding-inline: 2rem;
+  border-radius: 20px;
+  font-weight: bold;
+  animation: fadeInComponent 1.5s ease-out;
+}
+
+.contact-form-title{
+  font-size: 2.25rem/* 36px */;
+}
+
+.contact-form {
+  margin-inline: auto;
+  width: 60%;
+}
+
+.contact-form input, 
+.contact-form textarea {
+  width: 100%;
+  background-color: rgb(240, 246, 255);
+  padding-inline: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.contact-button {
+  height: 4rem;
+  border-radius: 20px;
+}

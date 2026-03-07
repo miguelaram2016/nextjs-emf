@@ -1,0 +1,391 @@
+.home-container {
+  color: white;
+  position: relative;
+  margin-inline: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.intro-section {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInUp 1s ease;
+}
+
+.background-image-container {
+  position: absolute;
+  z-index: -50;
+  opacity: 0.4;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  animation: fadeIn 2s ease-out;
+  width: 95%;
+  max-width: 40rem;
+}
+
+.background-image {
+  max-width: 100%; 
+  transform: scale(1.1);
+  transition: transform 0.5s ease-in-out;
+}
+
+.background-image:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.intro-text-container {
+  background: linear-gradient(to right, rgba(33, 71, 125,.3), rgba(69, 168, 214,.3));
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  animation: slideInLeft 1.5s ease-out;
+  width: 95%;
+  max-width: 40rem;
+}
+
+.intro-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.intro-text {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.founder-intro {
+  border-radius: 20px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Hero CTA Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-cta-button {
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.hero-cta-button.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.hero-cta-button.primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.hero-cta-button.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.hero-cta-button.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 4rem 2rem;
+  background: rgba(31, 41, 55, 0.5);
+  margin: 2rem 0;
+}
+
+.testimonials-heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(55, 65, 81, 0.8);
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.testimonial-name {
+  font-weight: 600;
+  color: #60a5fa;
+}
+
+/* Tools Preview Section */
+.tools-preview-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.tools-preview-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.tools-preview-subtext {
+  font-size: 1.125rem;
+  color: #9ca3af;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Who Is This For Section */
+.who-is-this-for-section {
+  padding: 4rem 2rem;
+  background: rgba(31, 41, 55, 0.5);
+}
+
+.who-is-this-for-heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.who-is-this-for-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.who-is-this-for-card {
+  background: rgba(55, 65, 81, 0.8);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.who-is-this-for-card:hover {
+  transform: translateY(-4px);
+  border-color: #60a5fa;
+}
+
+.who-is-this-for-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.who-is-this-for-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+.who-is-this-for-card p {
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.how-it-works-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+.how-it-works-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 2rem;
+}
+
+.how-it-works-step {
+  padding: 1.5rem;
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: white;
+  margin: 0 auto 1.5rem;
+}
+
+.how-it-works-step h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.how-it-works-step p {
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+.how-it-works-cta {
+  margin-top: 2rem;
+}
+
+/* Media queries for larger screens */
+@media (min-width: 640px) {
+  .intro-heading {
+    font-size: 1.75rem;
+  }
+  .intro-text {
+    font-size: 1.1rem;
+  }
+  .founder-intro {
+    font-size: 1rem;
+  }
+  .intro-text-container {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .intro-heading {
+    font-size: 2rem;
+  }
+  .intro-text-container {
+    padding: 3rem;
+  }
+  .testimonials-heading,
+  .tools-preview-heading,
+  .who-is-this-for-heading,
+  .how-it-works-heading {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .intro-section{
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem;
+  }
+  .background-image-container{
+    position: relative;
+    opacity: 1;
+    max-width: 50rem;
+  }
+  .intro-text-container {
+    padding: 4rem 3rem;
+    max-width: 45rem;
+  }
+  .intro-heading {
+    font-size: 2.25rem;
+  }
+  .intro-text {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .intro-text-container {
+    padding: 5rem 4rem;
+    max-width: 50rem;
+  }
+  .intro-heading {
+    font-size: 2.5rem;
+  }
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInComponent {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
