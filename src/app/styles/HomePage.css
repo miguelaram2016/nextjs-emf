@@ -7,7 +7,7 @@
 }
 
 .intro-section {
-  padding: 30px;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@
 .background-image-container {
   position: absolute;
   z-index: -50;
-  opacity: 0.5;
+  opacity: 0.4;
   overflow-x: hidden;
   overflow-y: hidden;
   display: flex;
@@ -25,10 +25,12 @@
   justify-content: center;
   border-radius: 1rem;
   animation: fadeIn 2s ease-out;
+  width: 95%;
+  max-width: 40rem;
 }
 
 .background-image {
-  max-width: 60rem; 
+  max-width: 100%; 
   transform: scale(1.1);
   transition: transform 0.5s ease-in-out;
 }
@@ -39,27 +41,33 @@
 
 .intro-text-container {
   background: linear-gradient(to right, rgba(33, 71, 125,.3), rgba(69, 168, 214,.3));
-  padding: 6rem;
+  padding: 2rem 1.5rem;
   border-radius: 1rem;
   animation: slideInLeft 1.5s ease-out;
+  width: 95%;
+  max-width: 40rem;
 }
 
 .intro-heading {
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .intro-text {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .founder-intro {
   border-radius: 20px;
-  margin-top: 2rem;
-  font-size: min(6vw, 24px);
+  margin-top: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
+  text-align: center;
 }
 
 /* Hero CTA Buttons */
@@ -280,15 +288,68 @@
   margin-top: 2rem;
 }
 
-/* Media query for larger screens */
+/* Media queries for larger screens */
+@media (min-width: 640px) {
+  .intro-heading {
+    font-size: 1.75rem;
+  }
+  .intro-text {
+    font-size: 1.1rem;
+  }
+  .founder-intro {
+    font-size: 1rem;
+  }
+  .intro-text-container {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .intro-heading {
+    font-size: 2rem;
+  }
+  .intro-text-container {
+    padding: 3rem;
+  }
+  .testimonials-heading,
+  .tools-preview-heading,
+  .who-is-this-for-heading,
+  .how-it-works-heading {
+    font-size: 1.75rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .intro-section{
     flex-direction: row;
     justify-content: center;
+    gap: 2rem;
+    padding: 3rem;
   }
   .background-image-container{
     position: relative;
     opacity: 1;
+    max-width: 50rem;
+  }
+  .intro-text-container {
+    padding: 4rem 3rem;
+    max-width: 45rem;
+  }
+  .intro-heading {
+    font-size: 2.25rem;
+  }
+  .intro-text {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .intro-text-container {
+    padding: 5rem 4rem;
+    max-width: 50rem;
+  }
+  .intro-heading {
+    font-size: 2.5rem;
   }
 }
 

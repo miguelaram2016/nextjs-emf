@@ -11,7 +11,7 @@ import './Tools.css';
 const trainingTools = [
   { id: 'OneRepMaxCalc', title: '1RM Calculator', description: 'Estimate your one rep max from submaximal loads.', icon: '🏋️' },
   { id: 'MaxSingle', title: 'Max Single Protocol', description: 'Warm-up protocol for testing your 1RM safely.', icon: '🔥' },
-  { id: 'SquatFreeBody', title: 'Squat Form Guide', description: 'Analyze your squat mechanics with visual feedback.', icon: '🦵' },
+  // { id: 'SquatFreeBody', title: 'Squat Form Guide', description: 'Analyze your squat mechanics with visual feedback.', icon: '🦵' },
   { id: 'SearchExercises', title: 'Exercise Search', description: 'Search a database of exercises with descriptions and videos.', icon: '🔍' },
   { id: 'CreateExercise', title: 'Create Exercise', description: 'Build custom exercises for your workouts.', icon: '✏️' },
   { id: 'TrainingPrograms', title: 'Training Programs', description: 'Browse pre-built training programs.', icon: '📋' },
