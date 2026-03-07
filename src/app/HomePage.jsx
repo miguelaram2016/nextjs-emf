@@ -35,21 +35,21 @@ const HomePage = () => {
         </div>
         <div className='intro-text-container'>
           <p className='intro-heading'>
-            Get Strong, Get Fit
+            Not Sure Where to Start? I'll Help You Figure It Out.
           </p>
           <p className="intro-text">
-            Personalized Training Programs <br></br>
-            1-on-1 Support <br></br>
-            Train the Way You Want <br></br>
-            Maintain a Healthy Lifestyle
+            Fitness Consulting + Personalized Programs <br></br>
+            Direction When You Need It <br></br>
+            No Long-Term Commitment Required <br></br>
+            Evidence-Based. Kinesiology-Backed.
           </p>
           <p className='founder-intro'>
-            Reach your goals fast, without compromising safety <br></br>
-            <span className='text-sm align-top'>-Miguel Ramirez</span>
+            I help people who feel stuck or overwhelmed get pointed in the right direction — whether you're starting out or getting back after a break. <br></br>
+            <span className='text-sm align-top'>- Miguel Ramirez, Kinesiology</span>
           </p>
           <div className="hero-buttons">
             <Link href="/services" className="hero-cta-button primary">
-              Book a Session
+              Get Direction
             </Link>
             <Link href="/tools" className="hero-cta-button secondary">
               Free Tools

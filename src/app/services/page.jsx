@@ -42,13 +42,13 @@ const Services = () => {
   return (
     <main className="services-container">
       <div className="services-services">
-        <h1 className="services-header">Training Services</h1>
+        <h1 className="services-header">Fitness Programs</h1>
         <div className="service-buttons">
-          <button onClick={() => scrollToRef(inPersonRef)} className="service-button">In-Person</button>
-          <button onClick={() => scrollToRef(onlineRef)} className="service-button">Online</button>
+          <button onClick={() => scrollToRef(inPersonRef)} className="service-button">One-Time</button>
+          <button onClick={() => scrollToRef(onlineRef)} className="service-button">Ongoing</button>
         </div>
         <p className="services-header-description">
-          Transform your fitness journey with personalized training support. Dedicated to crafting personalized experiences that cater to your unique goals, be it recovery, weight management, muscle building, or strength enhancement, discover the luxury of customized fitness.
+          Whether you just need direction or want ongoing support, I build personalized programs that fit your life — not the other way around. No gym membership required. No long-term lock-ins.
         </p>
         <div ref={inPersonRef} id="in-person-services" className="services-cards">
           {renderServiceCards('in-person')}
