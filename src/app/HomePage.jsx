@@ -6,16 +6,16 @@ import "./styles/HomePage.css";
 // eslint-disable-next-line react/no-unescaped-entities
 const testimonials = [
   {
-    name: "Sarah M.",
-    text: "Miguel's knowledge in Kinesiology completely transformed my approach to fitness. I've never felt stronger!",
+    name: "Natalie D.",
+    text: "Gains by Miguel",
   },
   {
-    name: "James T.",
-    text: "Lost 30 lbs in 4 months while building muscle. His evidence-based approach works. Highly recommend!",
+    name: "Michele Y.",
+    text: "I feel like I haven't aged at all and we've been working together for 2 years already.",
   },
   {
-    name: "Amanda L.",
-    text: "Training with Miguel helped me recover from my injury stronger than before. He truly cares about your progress.",
+    name: "Robert R.",
+    text: "I feel stronger, lighter. I am really liking who I see in the mirror!",
   },
 ];
 
