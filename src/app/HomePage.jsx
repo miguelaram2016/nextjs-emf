@@ -1,10 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
 import ContactForm from './components/ContactForm';
 import Image from 'next/image';
 import Link from 'next/link';
 import "./styles/HomePage.css";
 
-// eslint-disable-next-line react/no-unescaped-entities
 const testimonials = [
   {
     name: "Natalie D.",

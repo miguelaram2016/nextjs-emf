@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client"
 import { useState } from 'react';
 import { Box, Button, CircularProgress, Alert } from '@mui/material';
@@ -77,7 +76,6 @@ const ContactForm = () => {
       </div>
       
       {status === 'success' && (
-        // eslint-disable-next-line react/no-unescaped-entities
         <Alert severity="success" sx={{ mb: 2 }}>
           Thanks! I'll get back to you soon.
         </Alert>
