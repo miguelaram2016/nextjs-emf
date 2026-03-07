@@ -1,0 +1,80 @@
+/* Tools Page Container */
+.tools-container {
+  color: white;
+  min-height: 100vh;
+}
+
+/* Tool Card Enhancements */
+.tool-card {
+  background: linear-gradient(145deg, #1f2937, #374151);
+  border: 1px solid #4b5563;
+  transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+}
+
+.tool-card-expanded {
+  border-color: #3b82f6;
+}
+
+/* Tool Content Styling */
+.tool-content {
+  padding-top: 1rem;
+  border-top: 1px solid #4b5563;
+  margin-top: 1rem;
+}
+
+/* Form Inputs in Tools */
+.tool-content input,
+.tool-content select,
+.tool-content textarea {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.tool-content input:focus,
+.tool-content select:focus,
+.tool-content textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Buttons in Tools */
+.tool-content button {
+  background: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.tool-content button:hover {
+  background: #2563eb;
+}
+
+/* Section Headers */
+.section-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #f9fafb;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
