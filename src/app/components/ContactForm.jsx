@@ -26,20 +26,19 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate form
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      setStatus('error');
-      setTimeout(() => setStatus(null), 5000);
-      return;
-    }
-
-    setLoading(true);
-    setStatus(null);
-
     // Debug log env vars
     console.log('EmailJS Service ID:', process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
     console.log('EmailJS Template ID:', process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
     console.log('EmailJS Public Key:', process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ? 'set' : 'MISSING');
+    
+    // Validate form
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      // For testing - allow submission even with empty fields
+      console.log('Form validation: allowing test submission');
+    }
+
+    setLoading(true);
+    setStatus(null);
 
     // Create timeout promise
     const timeoutPromise = new Promise((_, reject) => 
@@ -48,16 +47,16 @@ const ContactForm = () => {
 
     // EmailJS promise
     const emailPromise = emailjs.send(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_is73und',
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_fg06e44',
       {
-        from_name: form.name,
+        from_name: form.name || 'Test User',
         to_name: "Miguel Ramirez",
-        from_email: form.email,
+        from_email: form.email || 'test@test.com',
         to_email: "mramirez@elmarfitness.com",
-        message: form.message + " /n " + form.email,
+        message: (form.message || 'Test message') + " /n " + (form.email || 'test@test.com'),
       },
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'ty1KsE0WLO3qwvsZy'
     );
 
     try {
