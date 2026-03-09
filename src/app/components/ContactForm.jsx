@@ -47,8 +47,8 @@ const ContactForm = () => {
 
     // EmailJS promise
     const emailPromise = emailjs.send(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_is73und',
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_fg06e44',
+      'service_is73und',
+      'template_fg06e44',
       {
         from_name: form.name || 'Test User',
         to_name: "Miguel Ramirez",
@@ -56,7 +56,7 @@ const ContactForm = () => {
         to_email: "mramirez@elmarfitness.com",
         message: (form.message || 'Test message') + " /n " + (form.email || 'test@test.com'),
       },
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'z9lzSqZbjHJg9NFZ1Y1ub'
+      'ty1KsE0WLO3qwvsZy'
     );
 
     try {
