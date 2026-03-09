@@ -67,11 +67,13 @@ const ContactForm = () => {
       setStatus('success');
       setForm({ name: "", email: "", message: "" });
       setTimeout(() => setStatus(null), 5000);
+      alert('Email sent successfully!');
       
     } catch (error) {
       console.error('Contact form error:', error);
       setLoading(false);
       setStatus('error');
+      alert('Email failed: ' + error.message);
       setTimeout(() => setStatus(null), 10000);
     }
   };
