@@ -7,23 +7,18 @@ export const navLinks = [
     id: "services",
     title: "Services",
   },
-  
   {
     id: "tools",
     title: "Tools",
   },
   {
+    id: "blog",
+    title: "Blog",
+  },
+  {
     id: "about",
     title: "About",
   },  
-  /*{
-    id: "contact",
-    title: "Contact",
-  },
-  {
-    id: "nutrition",
-    title: "Nutrition",
-  },*/
 ];
 
 export const workouts = [
