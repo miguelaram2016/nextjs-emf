@@ -36,6 +36,9 @@ const About = () => {
             <p>
               I was originally an Electrical and Computer Engineering major. But halfway through, I switched to a health track. I thought I'd go into physical therapy, but I realized I wanted to help people <em>before</em> they needed medical intervention — and without the corporate overhead. That's when I chose Kinesiology.
             </p>
+            <p>
+              <strong>Today, I focus on:</strong> Strength training, powerbuilding, powerlifting, bodybuilding — anything that improves bone density and builds muscle mass. I also incorporate light cardio for heart health, but the heavy lifting is where the real results are.
+            </p>
           </div>
         </section>
 
