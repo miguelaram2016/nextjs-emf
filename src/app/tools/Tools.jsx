@@ -24,7 +24,7 @@ const nutritionTools = [
 ];
 
 const Tools = () => {
-  const [expandedTool, setExpandedTool] = useState(null);
+  const [expandedTool, setExpandedTool] = useState('OneRepMaxCalc');
 
   const renderToolComponent = (toolId) => {
     switch (toolId) {

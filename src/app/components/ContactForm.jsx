@@ -72,7 +72,7 @@ const ContactForm = () => {
   return (
     <Box className="contact-form-container">
       <div className='contact-form-title'>
-        <p className=''>Let`s connect!</p>
+        <p className=''>Let's connect!</p>
       </div>
       
       {status === 'success' && (
