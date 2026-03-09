@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 const CATEGORIES = ['Fitness Basics', 'Training Tips', 'Education', 'Nutrition'];
 
-export default function EditorPage() {
+function EditorContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const editSlug = searchParams.get('edit');
@@ -286,5 +286,14 @@ export default function EditorPage() {
 
       </div>
     </main>
+  );
+}
+
+// Wrap with Suspense for useSearchParams
+export default function EditorPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-white">Loading...</div>}>
+      <EditorContent />
+    </Suspense>
   );
 }
