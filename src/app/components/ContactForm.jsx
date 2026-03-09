@@ -56,7 +56,7 @@ const ContactForm = () => {
         to_email: "mramirez@elmarfitness.com",
         message: (form.message || 'Test message') + " /n " + (form.email || 'test@test.com'),
       },
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'ty1KsE0WLO3qwvsZy'
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'z9lzSqZbjHJg9NFZ1Y1ub'
     );
 
     try {
