@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { blogPosts } from '../blog/data';
+import { blogPosts } from '../data';
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({

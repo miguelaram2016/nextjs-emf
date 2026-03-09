@@ -3,11 +3,6 @@
 import Link from 'next/link';
 import { blogPosts } from './data';
 
-export const metadata = {
-  title: 'Blog | El Mar Fitness',
-  description: 'Fitness tips, Kinesiology insights, and training advice from Miguel Ramirez.',
-};
-
 const Blog = () => {
   return (
     <main className="py-16 bg-gray-800 min-h-screen">
