@@ -22,7 +22,11 @@ export const navLinks = [
   {
     id: "about",
     title: "About",
-  },  
+  },
+  {
+    id: "admin",
+    title: "Admin",
+  },
 ];
 
 export const workouts = [
@@ -788,7 +792,7 @@ export const trainingBlocks = [
       },
     ]
   },
-  
+
 ]
 
 export const maxSingle = [
@@ -940,7 +944,7 @@ export const repPercentages = {
   27: 53,
   28: 52,
   29: 51,
-  30: 50,      
+  30: 50,
 };
 
 export const nutritionTips = [
