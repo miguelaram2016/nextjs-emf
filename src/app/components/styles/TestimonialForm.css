@@ -1,0 +1,32 @@
+.rating-container {
+  margin-bottom: 1rem;
+}
+
+.rating-label {
+  display: block;
+  color: white;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.rating-select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #4b5563;
+  background: #1f2937;
+  color: white;
+  font-size: 1rem;
+}
+
+.rating-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.testimonial-note {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
