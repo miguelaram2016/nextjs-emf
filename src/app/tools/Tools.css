@@ -2,6 +2,7 @@
 .tools-container {
   color: white;
   min-height: 100vh;
+  padding: 1rem;
 }
 
 /* Tool Card Enhancements */
@@ -9,6 +10,7 @@
   background: linear-gradient(145deg, #1f2937, #374151);
   border: 1px solid #4b5563;
   transition: all 0.3s ease;
+  margin-bottom: 0.75rem;
 }
 
 .tool-card:hover {
