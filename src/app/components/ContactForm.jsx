@@ -37,9 +37,9 @@ const ContactForm = () => {
     setStatus(null);
 
     // Debug log env vars
-    console.log('EmailJS Service ID:', process.env.NEXT_EMAILJS_SERVICE_ID);
-    console.log('EmailJS Template ID:', process.env.NEXT_EMAILJS_TEMPLATE_ID);
-    console.log('EmailJS Public Key:', process.env.NEXT_EMAILJS_PUBLIC_KEY ? 'set' : 'MISSING');
+    console.log('EmailJS Service ID:', process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
+    console.log('EmailJS Template ID:', process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
+    console.log('EmailJS Public Key:', process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ? 'set' : 'MISSING');
 
     // Create timeout promise
     const timeoutPromise = new Promise((_, reject) => 
@@ -48,8 +48,8 @@ const ContactForm = () => {
 
     // EmailJS promise
     const emailPromise = emailjs.send(
-      process.env.NEXT_EMAILJS_SERVICE_ID || 'service_mw8znxd',
-      process.env.NEXT_EMAILJS_TEMPLATE_ID || 'template_z00c62l',
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
       {
         from_name: form.name,
         to_name: "Miguel Ramirez",
@@ -57,7 +57,7 @@ const ContactForm = () => {
         to_email: "mramirez@elmarfitness.com",
         message: form.message + " /n " + form.email,
       },
-      process.env.NEXT_EMAILJS_PUBLIC_KEY || 'bOwhuMuX2nRYKLjRm'
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
     );
 
     try {
