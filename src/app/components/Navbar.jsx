@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { navLinks } from "../constants";
@@ -8,10 +8,17 @@ import './styles/Navbar.css';
 const Navbar = ({ loggedIn }) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLinkClick = (title) => {
     setActive(title);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const dashboardLink = loggedIn ? "Dashboard" : "Log In";
