@@ -95,7 +95,10 @@
   object-fit: contain;
   cursor: pointer;
   position: absolute;
-  z-index: 200;
+  z-index: 1001;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .nav-dropdown-menu {
