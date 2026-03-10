@@ -29,6 +29,7 @@ const HomePage = () => {
             height={1000}
             width={1000}
             className='background-image'
+            unoptimized
           >
           </Image>
         </div>

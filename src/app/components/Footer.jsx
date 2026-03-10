@@ -1,9 +1,14 @@
 "use client"
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import './styles/Footer.css';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState(2026);
+  
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
   
   return (
     <footer className="footer-container">

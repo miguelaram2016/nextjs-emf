@@ -23,10 +23,6 @@ export const navLinks = [
     id: "about",
     title: "About",
   },
-  {
-    id: "admin",
-    title: "Admin",
-  },
 ];
 
 export const workouts = [
