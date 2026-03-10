@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-const ADMIN_PASSWORD = 'Miguel2026!#';
+const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -13,7 +13,9 @@ export default function AdminPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
+    if (!ADMIN_PASSWORD) {
+      setError('Admin password not configured');
+    } else if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
       setError('');
     } else {
