@@ -6,21 +6,22 @@ import { MacronutrientCalc, BMICalculator, TDEECalc, HealthyTips } from './nutri
 import SearchExercises from './trainingUtils/SearchExercises';
 import CreateExercise from './trainingUtils/CreateExercise';
 import TrainingPrograms from './TrainingPrograms';
+import { DumbbellIcon, FlameIcon, SearchIcon, PencilIcon, ClipboardIcon, ZapIcon, BarChartIcon, SaladIcon, CalculatorIcon } from '../components/Icons';
 import './Tools.css';
 
 const trainingTools = [
-  { id: 'OneRepMaxCalc', title: '1RM Calculator', description: 'Estimate your one rep max from submaximal loads.', icon: '🏋️' },
-  { id: 'MaxSingle', title: 'Max Single Protocol', description: 'Warm-up protocol for testing your 1RM safely.', icon: '🔥' },
+  { id: 'OneRepMaxCalc', title: '1RM Calculator', description: 'Estimate your one rep max from submaximal loads.', icon: CalculatorIcon },
+  { id: 'MaxSingle', title: 'Max Single Protocol', description: 'Warm-up protocol for testing your 1RM safely.', icon: FlameIcon },
   // { id: 'SquatFreeBody', title: 'Squat Form Guide', description: 'Analyze your squat mechanics with visual feedback.', icon: '🦵' },
-  { id: 'SearchExercises', title: 'Exercise Search', description: 'Search a database of exercises with descriptions and videos.', icon: '🔍' },
-  { id: 'CreateExercise', title: 'Create Exercise', description: 'Build custom exercises for your workouts.', icon: '✏️' },
-  { id: 'TrainingPrograms', title: 'Training Programs', description: 'Browse pre-built training programs.', icon: '📋' },
+  { id: 'SearchExercises', title: 'Exercise Search', description: 'Search a database of exercises with descriptions and videos.', icon: SearchIcon },
+  { id: 'CreateExercise', title: 'Create Exercise', description: 'Build custom exercises for your workouts.', icon: PencilIcon },
+  { id: 'TrainingPrograms', title: 'Training Programs', description: 'Browse pre-built training programs.', icon: ClipboardIcon },
 ];
 
 const nutritionTools = [
-  { id: 'TDEECalc', title: 'TDEE Calculator', description: 'Find your Total Daily Energy Expenditure.', icon: '⚡' },
-  { id: 'BMICalculator', title: 'BMI Calculator', description: 'Check your Body Mass Index.', icon: '📊' },
-  { id: 'MacronutrientCalc', title: 'Macro Calculator', description: 'Calculate your ideal protein, carbs, and fats.', icon: '🥗' },
+  { id: 'TDEECalc', title: 'TDEE Calculator', description: 'Find your Total Daily Energy Expenditure.', icon: ZapIcon },
+  { id: 'BMICalculator', title: 'BMI Calculator', description: 'Check your Body Mass Index.', icon: BarChartIcon },
+  { id: 'MacronutrientCalc', title: 'Macro Calculator', description: 'Calculate your ideal protein, carbs, and fats.', icon: SaladIcon },
 ];
 
 const Tools = () => {
@@ -57,7 +58,7 @@ const Tools = () => {
       onClick={() => setExpandedTool(expandedTool === tool.id ? null : tool.id)}
     >
       <div className="flex items-start gap-4">
-        <span className="text-3xl">{tool.icon}</span>
+        <span className="text-blue-400"><tool.icon /></span>
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-white mb-1">{tool.title}</h3>
           <p className="text-gray-400 text-sm">{tool.description}</p>

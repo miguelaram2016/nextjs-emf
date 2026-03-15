@@ -1,3 +1,5 @@
+import { CompassIcon, MapIcon, UsersIcon, UtensilsIcon } from '../components/Icons';
+
 export const services = [
   {
     name: 'direction',
@@ -9,6 +11,7 @@ export const services = [
     image: '/training.png',
     classification: 'in-person',
     highlights: ['Custom workout program', 'Exercise video library', '1 strategy call', '90-day plan'],
+    Icon: CompassIcon,
   },
   {
     name: 'guide',
@@ -20,6 +23,7 @@ export const services = [
     image: '/partner.png',
     classification: 'in-person',
     highlights: ['Custom program + updates', 'Bi-weekly check-ins', 'App access', 'Messaging support'],
+    Icon: MapIcon,
   },
   {
     name: 'partner',
@@ -31,6 +35,7 @@ export const services = [
     image: '/online.png',
     classification: 'online',
     highlights: ['Weekly video calls', 'Unlimited messaging', 'Custom programming', 'Nutrition coaching'],
+    Icon: UsersIcon,
   },
   {
     name: 'meal-plan',
@@ -42,5 +47,6 @@ export const services = [
     image: '/meal.png',
     classification: 'online',
     highlights: ['Personalized macros', 'Flexible dieting', 'Grocery lists', 'Recipe suggestions'],
+    Icon: UtensilsIcon,
   },
 ];

@@ -8,10 +8,16 @@ import './styles/Navbar.css';
 const Navbar = ({ loggedIn }) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const handleScroll = () => {
+      if (typeof window !== 'undefined') {
+        setScrolled(window.scrollY > 50);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleLinkClick = (title) => {
@@ -25,15 +31,16 @@ const Navbar = ({ loggedIn }) => {
   const dashboardPath = loggedIn ? "/dashboard" : "https://temp-kinetic.vercel.app/";
 
   return (
-    <nav className="navbar-container">
+    <nav className={`navbar-container ${scrolled ? 'scrolled' : ''}`}>
       <div className='navbar-content'>
-        <Link href='/'>
+        <Link href='/' className="nav-logo-link">
           <div className='nav-logo' onClick={() => handleLinkClick('Home')}>
             <Image
               width={50}
               height={50}
               src='/assets/emfLogo.svg'
               alt='logo' 
+              className="nav-logo-img"
             />
             <p className='nav-title'>
               <span className='md:block hidden'>El Mar Fitness</span>
@@ -43,18 +50,18 @@ const Navbar = ({ loggedIn }) => {
         </Link>
 
         <ul className='nav-links'>
-          <li className={`${active === dashboardLink ? "text-white" : "text-gray-300"} hover:text-white sm:text-md md:text-[16px] font-medium cursor-pointer`}>
-            <Link href={dashboardPath}>
-              <div onClick={() => handleLinkClick(dashboardLink)}>{dashboardLink}</div>
-            </Link>
-          </li>
           {navLinks.filter(nav => nav.id !== "dashboard").map(nav => (
-            <li key={nav.id} className={`${active === nav.title ? "navlinks-active" : "text-gray-300"}`}>
+            <li key={nav.id} className={`nav-link-item ${active === nav.title ? 'active' : ''}`}>
               <Link href={`/${nav.id}`}>
-                <div onClick={() => handleLinkClick(nav.title)}>{nav.title}</div>
+                <span onClick={() => handleLinkClick(nav.title)}>{nav.title}</span>
               </Link>
             </li>
           ))}
+          <li className="nav-link-item login-link">
+            <Link href={dashboardPath}>
+              <span onClick={() => handleLinkClick(dashboardLink)}>{dashboardLink}</span>
+            </Link>
+          </li>
         </ul>
 
         <div className='nav-button' onClick={() => setToggle(!toggle)}>
@@ -66,24 +73,25 @@ const Navbar = ({ loggedIn }) => {
             className='nav-button-img'
           />
         </div>
+        
         {toggle && (
-          <div className="nav-dropdown-menu">
+          <div className="nav-dropdown-menu glass">
             <ul className='nav-links-dropdown'>
-              <li className={`${active === dashboardLink ? "navlinks-active" : "text-gray-300"}`}>
+              <li className="nav-dropdown-item">
                 <Link href={dashboardPath}>
-                  <div onClick={() => {
+                  <span onClick={() => {
                     setToggle(!toggle);
                     handleLinkClick(dashboardLink);
-                  }}>{dashboardLink}</div>
+                  }}>{dashboardLink}</span>
                 </Link>
               </li>
               {navLinks.filter(nav => nav.id !== "dashboard").map(nav => (
-                <li key={nav.id} className={`${active === nav.title ? "navlinks-active" : "text-gray-300"}`}>
+                <li key={nav.id} className="nav-dropdown-item">
                   <Link href={`/${nav.id}`}>
-                    <div onClick={() => {
+                    <span onClick={() => {
                       setToggle(!toggle);
                       handleLinkClick(nav.title);
-                    }}>{nav.title}</div>
+                    }}>{nav.title}</span>
                   </Link>
                 </li>
               ))}
