@@ -6,15 +6,15 @@ import "./styles/HomePage.css";
 const testimonials = [
   {
     name: "Natalie D.",
-    text: "Gains by Miguel",
+    text: "\"Gains by Miguel\"",
   },
   {
     name: "Michele Y.",
-    text: "I feel like I haven't aged at all and we've been working together for 2 years already.",
+    text: "\"I feel like I haven't aged at all and we've been working together for 2 years already.\"",
   },
   {
     name: "Robert R.",
-    text: "I feel stronger, lighter. I am really liking who I see in the mirror!",
+    text: "\"I feel stronger, lighter. I am really liking who I see in the mirror!\"",
   },
 ];
 
@@ -42,11 +42,11 @@ const HomePage = () => {
           </h1>
           
           <p className="hero-subtitle">
-            Fitness Consulting + Personalized Programs 
+            <span className="hero-subtitle-item">Fitness Consulting + Personalized Programs</span>
             <span className="hero-separator">•</span>
-            Direction When You Need It 
+            <span className="hero-subtitle-item">Direction When You Need It</span>
             <span className="hero-separator">•</span>
-            No Long-Term Commitment
+            <span className="hero-subtitle-item">No Long-Term Commitment</span>
           </p>
           
           <div className="hero-buttons">
@@ -54,6 +54,12 @@ const HomePage = () => {
               Get Direction
               <svg className="hero-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <Link href="https://temp-kinetic.vercel.app/auth/signup" className="hero-cta-button accent" target="_blank" rel="noopener noreferrer">
+              Start Your Training
+              <svg className="hero-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </Link>
             <Link href="/tools" className="hero-cta-button secondary">
@@ -94,7 +100,7 @@ const HomePage = () => {
       <section className="stats-section">
         <div className="stats-container">
           <div className="stat-item">
-            <span className="stat-number">500+</span>
+            <span className="stat-number">50+</span>
             <span className="stat-label">Clients Transformed</span>
           </div>
           <div className="stat-divider"></div>
@@ -117,7 +123,11 @@ const HomePage = () => {
           <div className="testimonials-grid">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="testimonial-card" style={{ animationDelay: `${index * 100}ms` }}>
-                <div className="testimonial-quote-icon">"</div>
+                <div className="testimonial-quote-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="quote-icon">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                  </svg>
+                </div>
                 <p className="testimonial-text">{testimonial.text}</p>
                 <p className="testimonial-name">{testimonial.name}</p>
               </div>

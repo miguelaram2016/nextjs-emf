@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react';
+import Link from 'next/link';
 import { MaxSingle, OneRepMaxCalc } from './workoutUtils';
 import SquatFreeBody  from './SquatFreeBody';
 import { MacronutrientCalc, BMICalculator, TDEECalc, HealthyTips } from './nutritionUtils/';
@@ -12,20 +13,19 @@ import './Tools.css';
 const trainingTools = [
   { id: 'OneRepMaxCalc', title: '1RM Calculator', description: 'Estimate your one rep max from submaximal loads.', icon: CalculatorIcon },
   { id: 'MaxSingle', title: 'Max Single Protocol', description: 'Warm-up protocol for testing your 1RM safely.', icon: FlameIcon },
-  // { id: 'SquatFreeBody', title: 'Squat Form Guide', description: 'Analyze your squat mechanics with visual feedback.', icon: '🦵' },
   { id: 'SearchExercises', title: 'Exercise Search', description: 'Search a database of exercises with descriptions and videos.', icon: SearchIcon },
   { id: 'CreateExercise', title: 'Create Exercise', description: 'Build custom exercises for your workouts.', icon: PencilIcon },
   { id: 'TrainingPrograms', title: 'Training Programs', description: 'Browse pre-built training programs.', icon: ClipboardIcon },
 ];
 
 const nutritionTools = [
-  { id: 'TDEECalc', title: 'TDEE Calculator', description: 'Find your Total Daily Energy Expenditure.', icon: ZapIcon },
-  { id: 'BMICalculator', title: 'BMI Calculator', description: 'Check your Body Mass Index.', icon: BarChartIcon },
-  { id: 'MacronutrientCalc', title: 'Macro Calculator', description: 'Calculate your ideal protein, carbs, and fats.', icon: SaladIcon },
+  { id: 'TDEECalc', title: 'TDEE Calculator', description: 'Find your Total Daily Energy Expenditure.', icon: ZapIcon, link: '/tools/tdee-calculator' },
+  { id: 'BMICalculator', title: 'BMI Calculator', description: 'Check your Body Mass Index.', icon: BarChartIcon, link: '/tools/bmi-calculator' },
+  { id: 'MacronutrientCalc', title: 'Macro Calculator', description: 'Calculate your ideal protein, carbs, and fats.', icon: SaladIcon, link: '/tools/macro-calculator' },
 ];
 
 const Tools = () => {
-  const [expandedTool, setExpandedTool] = useState('OneRepMaxCalc');
+  const [expandedTool, setExpandedTool] = useState(null);
 
   const renderToolComponent = (toolId) => {
     switch (toolId) {
@@ -54,21 +54,42 @@ const Tools = () => {
 
   const ToolCard = ({ tool, index }) => (
     <div 
-      className={`tool-card bg-gray-800 p-5 rounded-lg hover:bg-gray-750 transition-all duration-300 cursor-pointer border border-gray-700 hover:border-blue-500 ${expandedTool === tool.id ? 'tool-card-expanded' : ''}`}
-      onClick={() => setExpandedTool(expandedTool === tool.id ? null : tool.id)}
+      className={`tool-card ${expandedTool === tool.id ? 'tool-card-expanded' : ''}`}
+      style={{ animationDelay: `${index * 50}ms` }}
+      onClick={() => tool.link ? null : setExpandedTool(expandedTool === tool.id ? null : tool.id)}
     >
-      <div className="flex items-start gap-4">
-        <span className="text-blue-400"><tool.icon /></span>
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold text-white mb-1">{tool.title}</h3>
-          <p className="text-gray-400 text-sm">{tool.description}</p>
+      <div className="tool-card-header">
+        {tool.link ? (
+          <Link href={tool.link} className="tool-card-icon-link">
+            <div className="tool-card-icon">
+              <tool.icon />
+            </div>
+          </Link>
+        ) : (
+          <div className="tool-card-icon">
+            <tool.icon />
+          </div>
+        )}
+        <div className="tool-card-info">
+          {tool.link ? (
+            <Link href={tool.link}>
+              <h3 className="tool-card-title">{tool.title}</h3>
+            </Link>
+          ) : (
+            <h3 className="tool-card-title">{tool.title}</h3>
+          )}
+          <p className="tool-card-description">{tool.description}</p>
         </div>
-        <span className={`text-gray-500 transition-transform ${expandedTool === tool.id ? 'rotate-180' : ''}`}>
-          ▼
-        </span>
+        {!tool.link && (
+          <div className={`tool-card-chevron ${expandedTool === tool.id ? 'expanded' : ''}`}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        )}
       </div>
-      {expandedTool === tool.id && (
-        <div className="tool-content animate-fadeIn">
+      {!tool.link && expandedTool === tool.id && (
+        <div className="tool-content">
           {renderToolComponent(tool.id)}
         </div>
       )}
@@ -76,39 +97,59 @@ const Tools = () => {
   );
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <h1 className="text-4xl font-bold text-white mb-2">Free Fitness Tools</h1>
-      <p className="text-gray-400 mb-8">Calculate, track, and optimize your fitness journey — completely free.</p>
-      
-      {/* Training Tools Section */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-          <span>🏋️</span> Training Tools
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {trainingTools.map((tool, index) => (
-            <ToolCard key={tool.id} tool={tool} index={index} />
-          ))}
+    <main className="tools-page">
+      {/* Hero Section */}
+      <section className="tools-hero">
+        <div className="tools-hero-bg">
+          <div className="tools-orb-1"></div>
+          <div className="tools-orb-2"></div>
+        </div>
+        <div className="tools-hero-content">
+          <h1 className="tools-title">
+            Free Fitness <span className="text-gradient">Tools</span>
+          </h1>
+          <p className="tools-subtitle">
+            Calculate, track, and optimize your fitness journey — completely free.
+          </p>
         </div>
       </section>
 
-      {/* Nutrition Tools Section */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-          <span>🥗</span> Nutrition Tools
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {nutritionTools.map((tool, index) => (
-            <ToolCard key={tool.id} tool={tool} index={index} />
-          ))}
+      {/* Tools Section */}
+      <section className="tools-content">
+        <div className="section-container">
+          {/* Training Tools */}
+          <div className="tools-section">
+            <h2 className="tools-section-title">
+              <span className="tools-section-icon">🏋️</span>
+              Training Tools
+            </h2>
+            <div className="tools-grid">
+              {trainingTools.map((tool, index) => (
+                <ToolCard key={tool.id} tool={tool} index={index} />
+              ))}
+            </div>
+          </div>
+
+          {/* Nutrition Tools */}
+          <div className="tools-section">
+            <h2 className="tools-section-title">
+              <span className="tools-section-icon">🥗</span>
+              Nutrition Tools
+            </h2>
+            <div className="tools-grid">
+              {nutritionTools.map((tool, index) => (
+                <ToolCard key={tool.id} tool={tool} index={index} />
+              ))}
+            </div>
+          </div>
+
+          {/* Healthy Tips */}
+          <div className="tools-section">
+            <HealthyTips />
+          </div>
         </div>
       </section>
-
-      {/* Healthy Tips */}
-      <section>
-        <HealthyTips />
-      </section>
-    </div>
+    </main>
   );
 };
 

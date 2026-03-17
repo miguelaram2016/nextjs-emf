@@ -27,8 +27,8 @@ const Navbar = ({ loggedIn }) => {
     }
   };
 
-  const dashboardLink = loggedIn ? "Dashboard" : "Log In";
-  const dashboardPath = loggedIn ? "/dashboard" : "https://temp-kinetic.vercel.app/";
+  const dashboardLink = loggedIn ? "Dashboard" : "Start Training";
+  const dashboardPath = loggedIn ? "https://temp-kinetic.vercel.app/dashboard" : "https://temp-kinetic.vercel.app/auth/signup";
 
   return (
     <nav className={`navbar-container ${scrolled ? 'scrolled' : ''}`}>
@@ -64,15 +64,21 @@ const Navbar = ({ loggedIn }) => {
           </li>
         </ul>
 
-        <div className='nav-button' onClick={() => setToggle(!toggle)}>
+        <button 
+          type="button"
+          className='nav-button' 
+          onClick={() => setToggle(!toggle)}
+          aria-label={toggle ? 'Close menu' : 'Open menu'}
+        >
           <Image
             src={toggle ? '/assets/close.svg' : '/assets/menu.svg'}
             height={50}
             width={50}
             alt='menu'
             className='nav-button-img'
+            unoptimized
           />
-        </div>
+        </button>
         
         {toggle && (
           <div className="nav-dropdown-menu glass">

@@ -17,7 +17,11 @@ export const navLinks = [
   },
   {
     id: "testimonials",
-    title: "Reviews",
+    title: "Testimonials",
+  },
+  {
+    id: "contact",
+    title: "Contact",
   },
   {
     id: "about",

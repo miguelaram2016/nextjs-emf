@@ -67,7 +67,7 @@
   padding: 0;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .nav-links {
     display: flex;
   }
@@ -127,22 +127,35 @@
   display: none;
 }
 
-/* Mobile menu button */
+/* Mobile menu button - visible on mobile by default */
 .nav-button {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   z-index: 10001;
   cursor: pointer;
-  padding: 8px;
-  margin-right: -8px;
+  padding: 12px;
+  margin-right: -12px;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-@media (min-width: 640px) {
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.nav-button:focus {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 768px) {
   .nav-button {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -150,7 +163,6 @@
   width: 28px;
   height: 28px;
   object-fit: contain;
-  /* Removed invert(1) - icon is white, dark background needs white icon for contrast */
 }
 
 /* Dropdown menu */

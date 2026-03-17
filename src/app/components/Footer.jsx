@@ -29,7 +29,7 @@ const Footer = () => {
             Evidence-based fitness consulting powered by Kinesiology.
           </p>
           <div className="footer-socials">
-            <a href="mailto:miguel@elmarfitness.com" className="footer-social-link" aria-label="Email">
+            <a href="mailto:mramirez@elmarfitness.com" className="footer-social-link" aria-label="Email">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -42,9 +42,11 @@ const Footer = () => {
           <ul className="footer-links">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/services">Services</Link></li>
-            <li><Link href="/about">About</Link></li>
             <li><Link href="/tools">Tools</Link></li>
             <li><Link href="/blog">Blog</Link></li>
+            <li><Link href="/testimonials">Testimonials</Link></li>
+            <li><Link href="/contact">Contact</Link></li>
+            <li><Link href="/about">About</Link></li>
           </ul>
         </div>
         
@@ -61,8 +63,8 @@ const Footer = () => {
         <div className="footer-contact">
           <h4 className="footer-heading">Let's Connect</h4>
           <p className="footer-contact-text">Ready to get direction? I'd love to hear from you.</p>
-          <a href="mailto:miguel@elmarfitness.com" className="footer-email">
-            miguel@elmarfitness.com
+          <a href="mailto:mramirez@elmarfitness.com" className="footer-email">
+            mramirez@elmarfitness.com
           </a>
         </div>
       </div>

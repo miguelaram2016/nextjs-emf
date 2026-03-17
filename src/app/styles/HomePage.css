@@ -132,6 +132,16 @@
   animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
 
+.hero-subtitle-item {
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .hero-subtitle-item {
+    display: inline;
+  }
+}
+
 @media (min-width: 768px) {
   .hero-subtitle {
     font-size: 1.25rem;
@@ -140,13 +150,13 @@
 
 .hero-separator {
   color: #475569;
-  margin: 0 0.75rem;
-  display: none;
+  margin: 0.5rem 0;
+  display: inline-block;
 }
 
 @media (min-width: 640px) {
   .hero-separator {
-    display: inline;
+    margin: 0 0.75rem;
   }
 }
 
@@ -202,6 +212,21 @@
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
+}
+
+.hero-cta-button.accent {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(20, 184, 166, 0.39);
+}
+
+.hero-cta-button.accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(20, 184, 166, 0.5);
+}
+
+.hero-cta-button.accent:hover .hero-btn-arrow {
+  transform: translateX(4px);
 }
 
 .hero-founder {
@@ -374,6 +399,12 @@
   position: absolute;
   top: 1rem;
   left: 1.5rem;
+}
+
+.quote-icon {
+  width: 48px;
+  height: 48px;
+  color: rgba(249, 115, 22, 0.15);
 }
 
 .testimonial-text {

@@ -20,6 +20,8 @@ function EditorContent() {
   });
   const [isPreview, setIsPreview] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
   const [existingPosts, setExistingPosts] = useState([]);
 
   useEffect(() => {
@@ -38,26 +40,67 @@ function EditorContent() {
 
     // If editing, load the post
     if (editSlug) {
-      const allPosts = stored ? JSON.parse(stored) : [];
-      // Also check default posts
+      loadPost(editSlug);
+    }
+  }, [editSlug, router]);
+
+  const loadPost = async (slug) => {
+    try {
+      // Try to fetch from API first
+      const response = await fetch('/api/posts');
+      if (response.ok) {
+        const posts = await response.json();
+        const post = posts.find(p => p.slug === slug);
+        if (post) {
+          setFormData({
+            title: post.title || '',
+            excerpt: post.excerpt || '',
+            category: post.category || 'Fitness Basics',
+            date: post.date || new Date().toISOString().split('T')[0],
+            content: post.content || ''
+          });
+          return;
+        }
+      }
+      
+      // Fallback to localStorage
+      const stored = localStorage.getItem('elmar_blog_posts');
+      if (stored) {
+        const localPosts = JSON.parse(stored);
+        const post = localPosts.find(p => p.slug === slug);
+        if (post) {
+          setFormData({
+            title: post.title || '',
+            excerpt: post.excerpt || '',
+            category: post.category || 'Fitness Basics',
+            date: post.date || new Date().toISOString().split('T')[0],
+            content: post.content || ''
+          });
+          return;
+        }
+      }
+      
+      // Check default posts
       const defaultPosts = [
         { slug: 'why-cardio-isnt-enough', title: "Why Cardio Isn't Enough", date: '2026-03-09', category: 'Fitness Basics', excerpt: "Running on a treadmill won't give you the results you want. Here's what actually works.", content: '' },
         { slug: 'kinesiology-myths', title: '5 Kinesiology Myths Debunked', date: '2026-03-09', category: 'Education', excerpt: 'What I learned in school that most trainers don\'t know.', content: '' },
         { slug: 'how-to-warm-up', title: 'How to Warm Up Properly', date: '2026-03-09', category: 'Training Tips', excerpt: 'Stop wasting time on the elliptical. Here\'s what a real warm-up looks like.', content: '' }
       ];
       
-      const post = [...allPosts, ...defaultPosts].find(p => p.slug === editSlug);
-      if (post) {
+      const defaultPost = defaultPosts.find(p => p.slug === slug);
+      if (defaultPost) {
         setFormData({
-          title: post.title || '',
-          excerpt: post.excerpt || '',
-          category: post.category || 'Fitness Basics',
-          date: post.date || new Date().toISOString().split('T')[0],
-          content: post.content || ''
+          title: defaultPost.title || '',
+          excerpt: defaultPost.excerpt || '',
+          category: defaultPost.category || 'Fitness Basics',
+          date: defaultPost.date || new Date().toISOString().split('T')[0],
+          content: defaultPost.content || ''
         });
       }
+    } catch (err) {
+      console.error('Error loading post:', err);
     }
-  }, [editSlug, router]);
+  };
 
   const generateSlug = (title) => {
     return title
@@ -66,7 +109,7 @@ function EditorContent() {
       .replace(/^-|-$/g, '');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const slug = editSlug || generateSlug(formData.title);
@@ -80,33 +123,100 @@ function EditorContent() {
       content: formData.content
     };
 
-    // Get existing posts
-    const stored = localStorage.getItem('elmar_blog_posts');
-    let posts = stored ? JSON.parse(stored) : [];
+    setSaving(true);
+    setError(null);
 
-    // Update or add
-    const existingIndex = posts.findIndex(p => p.slug === slug);
-    if (existingIndex >= 0) {
-      posts[existingIndex] = postData;
-    } else {
-      posts.push(postData);
+    try {
+      // Try to save to API (KV)
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save to server');
+      }
+
+      // Also save to localStorage as backup
+      const stored = localStorage.getItem('elmar_blog_posts');
+      let posts = stored ? JSON.parse(stored) : [];
+      
+      const existingIndex = posts.findIndex(p => p.slug === slug);
+      if (existingIndex >= 0) {
+        posts[existingIndex] = postData;
+      } else {
+        posts.push(postData);
+      }
+      
+      localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
+      
+      setSaved(true);
+      
+      setTimeout(() => {
+        setSaved(false);
+      }, 2000);
+    } catch (err) {
+      console.error('Error saving post:', err);
+      
+      // Fallback to localStorage only
+      const stored = localStorage.getItem('elmar_blog_posts');
+      let posts = stored ? JSON.parse(stored) : [];
+      
+      const existingIndex = posts.findIndex(p => p.slug === slug);
+      if (existingIndex >= 0) {
+        posts[existingIndex] = postData;
+      } else {
+        posts.push(postData);
+      }
+      
+      localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
+      
+      setError('Saved to localStorage (server unavailable)');
+      setSaved(true);
+      
+      setTimeout(() => {
+        setSaved(false);
+        setError(null);
+      }, 3000);
+    } finally {
+      setSaving(false);
     }
-
-    localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
-    setSaved(true);
-    
-    setTimeout(() => {
-      setSaved(false);
-    }, 2000);
   };
 
-  const handleDelete = () => {
-    if (editSlug && confirm('Are you sure you want to delete this post?')) {
+  const handleDelete = async () => {
+    if (!editSlug) return;
+    
+    if (!confirm('Are you sure you want to delete this post?')) {
+      return;
+    }
+
+    try {
+      // Try to delete from API first
+      const response = await fetch(`/api/posts/${editSlug}`, {
+        method: 'DELETE',
+      });
+
+      // Also remove from localStorage
       const stored = localStorage.getItem('elmar_blog_posts');
       if (stored) {
         const posts = JSON.parse(stored).filter(p => p.slug !== editSlug);
         localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
       }
+
+      router.push('/admin');
+    } catch (err) {
+      console.error('Error deleting post:', err);
+      
+      // Fallback to localStorage
+      const stored = localStorage.getItem('elmar_blog_posts');
+      if (stored) {
+        const posts = JSON.parse(stored).filter(p => p.slug !== editSlug);
+        localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
+      }
+      
       router.push('/admin');
     }
   };
@@ -191,6 +301,13 @@ function EditorContent() {
           </div>
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="bg-yellow-600 text-white px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
+
         {isPreview ? (
           <div className="bg-gray-700 rounded-xl p-8">
             {renderPreview()}
@@ -270,9 +387,10 @@ function EditorContent() {
             <div className="flex gap-4">
               <button
                 type="submit"
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors"
+                disabled={saving}
+                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors disabled:opacity-50"
               >
-                {saved ? '✓ Saved!' : 'Save Post'}
+                {saving ? 'Saving...' : saved ? '✓ Saved!' : 'Save Post'}
               </button>
               <Link
                 href="/admin"
