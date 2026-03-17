@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   padding: 1rem 2rem;
   transition: all 0.3s ease;
   background: rgba(15, 23, 42, 0.6);
@@ -26,6 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .nav-logo-link {
@@ -66,7 +67,7 @@
   padding: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .nav-links {
     display: flex;
   }
@@ -131,11 +132,15 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  z-index: 2000;
+  z-index: 10001;
   cursor: pointer;
+  padding: 8px;
+  margin-right: -8px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .nav-button {
     display: none;
   }
@@ -145,7 +150,7 @@
   width: 28px;
   height: 28px;
   object-fit: contain;
-  filter: invert(1);
+  /* Removed invert(1) - icon is white, dark background needs white icon for contrast */
 }
 
 /* Dropdown menu */
@@ -153,12 +158,15 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 1rem;
-  min-width: 200px;
+  min-width: 240px;
   border-radius: 1rem;
   overflow: hidden;
   animation: scaleIn 0.2s ease-out;
   box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10002;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(16px);
 }
 
 .nav-links-dropdown {
