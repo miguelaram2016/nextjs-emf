@@ -1,3 +1,4 @@
+import { hasAdminSession } from '@/lib/admin-auth';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -33,6 +34,9 @@ export async function GET() {
 
 // POST new post
 export async function POST(request) {
+  if (!hasAdminSession(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   try {
     const body = await request.json();
     
