@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { hasAdminSession } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,6 +8,9 @@ const SUPABASE_KEY = 'sb_publishable_vBoLtbvnlnQ43N8KoPtnnw_We8uoS2C';
 
 // DELETE /api/posts/[id] - Delete a post by slug
 export async function DELETE(request, { params }) {
+  if (!hasAdminSession(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   try {
     const slug = params.id;
 
@@ -17,7 +21,7 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/posts?slug=eq.${slug}`, {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/posts?slug=eq.${encodeURIComponent(slug)}`, {
       method: 'DELETE',
       headers: {
         'apikey': SUPABASE_KEY,
