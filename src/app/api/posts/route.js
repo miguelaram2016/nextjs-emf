@@ -1,66 +1,76 @@
 import { hasAdminSession } from '@/lib/admin-auth';
+import { getBlogConfig, validateBlogPost } from '@/lib/blog-supabase.mjs';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-const SUPABASE_URL = 'https://wkkpykugeeydbmufvrtl.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_vBoLtbvnlnQ43N8KoPtnnw_We8uoS2C';
+function unavailable(message) {
+  return NextResponse.json({ error: message }, { status: 503 });
+}
 
-// GET all posts
+// Public blog reads use a publishable/anon key subject to Supabase RLS.
 export async function GET() {
+  const config = getBlogConfig('read');
+  if (!config) return unavailable('Blog storage is not configured');
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/posts?order=date.desc`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      }
+    const response = await fetch(config.url + '/rest/v1/posts?order=date.desc', {
+      headers: config.headers,
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10000)
     });
-
     if (!response.ok) {
-      const error = await response.text();
-      console.error('Supabase error:', error);
-      return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 });
+      console.error('Blog read upstream HTTP status:', response.status);
+      return NextResponse.json({ error: 'Blog posts are temporarily unavailable' }, { status: 502 });
     }
-
     const posts = await response.json();
-    return NextResponse.json(posts || []);
+    if (!Array.isArray(posts)) {
+      console.error('Blog read returned an unexpected response shape');
+      return NextResponse.json({ error: 'Blog posts are temporarily unavailable' }, { status: 502 });
+    }
+    return NextResponse.json(posts, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
-    console.error('Error fetching posts:', error);
-    return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 });
+    console.error('Blog read connection failure:', error instanceof Error ? error.name : 'unknown');
+    return NextResponse.json({ error: 'Blog posts are temporarily unavailable' }, { status: 502 });
   }
 }
 
-// POST new post
+// All writes require a valid admin session and a server-only Supabase key.
 export async function POST(request) {
   if (!hasAdminSession(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const config = getBlogConfig('write');
+  if (!config) return unavailable('Blog publishing is not configured');
+
+  let body;
   try {
-    const body = await request.json();
-    
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/posts`, {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+  const post = validateBlogPost(body);
+  if (!post) return NextResponse.json({ error: 'Invalid post fields' }, { status: 400 });
+
+  try {
+    const response = await fetch(config.url + '/rest/v1/posts', {
       method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=representation'
-      },
-      body: JSON.stringify(body)
+      headers: { ...config.headers, Prefer: 'return=representation' },
+      body: JSON.stringify(post),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10000)
     });
-
     if (!response.ok) {
-      const error = await response.text();
-      console.error('Supabase error:', error);
-      return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
+      console.error('Blog publish upstream HTTP status:', response.status);
+      return NextResponse.json({ error: 'Failed to publish post' }, { status: 502 });
     }
-
-    const data = await response.json();
-    return NextResponse.json(data[0], { status: 201 });
+    const created = await response.json();
+    if (!Array.isArray(created) || !created[0]) {
+      console.error('Blog publish returned no created record');
+      return NextResponse.json({ error: 'Unable to verify published post' }, { status: 502 });
+    }
+    return NextResponse.json(created[0], { status: 201 });
   } catch (error) {
-    console.error('Error creating post:', error);
-    return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
+    console.error('Blog publish connection failure:', error instanceof Error ? error.name : 'unknown');
+    return NextResponse.json({ error: 'Failed to publish post' }, { status: 502 });
   }
 }

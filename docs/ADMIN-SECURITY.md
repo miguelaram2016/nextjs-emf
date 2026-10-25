@@ -27,3 +27,34 @@ and Secure on production. Changing the session secret invalidates all sessions.
 The new endpoints deliberately fail closed when required Production variables
 are missing. Do not merge before provisioning them, or the admin login will
 be unavailable.
+
+## Blog storage configuration
+
+The former hard-coded project was Supabase `kinetic` (`wkkpykugeeydbmufvrtl`).
+It is currently inactive. **Recover and back up its existing posts before
+considering any replacement or migration.** Do not write sample data to it
+until its contents and access policies have been checked.
+
+Configure the following in Vercel (Preview first, then Production only after
+review). Never commit credentials:
+
+- `SUPABASE_URL`: verified project HTTPS API URL.
+- `SUPABASE_PUBLISHABLE_KEY`: publishable key for public blog reads. The
+  existing `NEXT_PUBLIC_SUPABASE_ANON_KEY` is supported as a legacy fallback.
+- `SUPABASE_SECRET_KEY`: server-only Supabase secret key for blog writes
+  (or `SUPABASE_SERVICE_ROLE_KEY` for a legacy service-role JWT). **Never**
+  prefix this with `NEXT_PUBLIC_` or place it in browser code.
+- `ELMAR_ADMIN_PASSWORD` and `ELMAR_ADMIN_SESSION_SECRET` as above.
+
+`SUPABASE_URL` can fall back to `NEXT_PUBLIC_SUPABASE_URL` temporarily.
+A missing/invalid storage config returns 503; an unreachable database or
+failed upstream response returns 502. Neither is converted into published
+sample posts. Unauthorized write requests still return 401 before accessing
+the database. Writes return 201 only after the upstream supplies a created
+record; DELETE returns 404 if no row was removed.
+
+For RLS, allow public SELECT of intended published posts only. Do not grant
+anonymous INSERT/UPDATE/DELETE. Server-only secret keys bypass RLS and must
+remain protected behind authenticated API routes. Run `npm run test:blog` for
+synthetic configuration and validation tests; complete authenticated CRUD
+smoke tests using a verified, recoverable backend before merging.
