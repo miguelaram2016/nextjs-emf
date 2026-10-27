@@ -29,7 +29,6 @@ const BlogPost = ({ params }) => {
       } catch (err) {
         console.error('Article API request failed');
         setError('Unable to load article');
-      }
       } finally {
         setLoading(false);
       }
