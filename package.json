@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:blog": "node --test tests/blog-supabase.test.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.1.0",

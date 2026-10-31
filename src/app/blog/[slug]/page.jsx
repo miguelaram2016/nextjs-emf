@@ -24,40 +24,11 @@ const BlogPost = ({ params }) => {
         if (found) {
           setPost(found);
         } else {
-          // Fallback to localStorage
-          if (typeof window !== 'undefined') {
-            const stored = localStorage.getItem('elmar_blog_posts');
-            if (stored) {
-              const localPosts = JSON.parse(stored);
-              const localFound = localPosts.find((p) => p.slug === params.slug);
-              if (localFound) {
-                setPost(localFound);
-                return;
-              }
-            }
-          }
           setPost(null);
         }
       } catch (err) {
-        console.error('Error fetching post:', err);
-        setError(err.message);
-        
-        // Final fallback to localStorage
-        if (typeof window !== 'undefined') {
-          const stored = localStorage.getItem('elmar_blog_posts');
-          if (stored) {
-            try {
-              const localPosts = JSON.parse(stored);
-              const localFound = localPosts.find((p) => p.slug === params.slug);
-              if (localFound) {
-                setPost(localFound);
-                setError(null);
-              }
-            } catch (e) {
-              console.error('Error parsing localStorage:', e);
-            }
-          }
-        }
+        console.error('Article API request failed');
+        setError('Unable to load article');
       } finally {
         setLoading(false);
       }
@@ -81,8 +52,8 @@ const BlogPost = ({ params }) => {
     return (
       <main className="blog-container">
         <div className="post-not-found">
-          <h1>Article Not Found</h1>
-          <p>The article you're looking for doesn't exist or has been moved.</p>
+          <h1>Unable to Load Article</h1>
+          <p>The blog service is currently unavailable. Please try again later.</p>
           <Link href="/blog" className="back-link">
             <ArrowLeftIcon />
             Back to Blog

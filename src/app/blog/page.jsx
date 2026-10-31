@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CalendarIcon, TagIcon } from '../components/Icons';
-import { blogPosts } from './data';
 import './styles/Blog.css';
 
 const Blog = () => {
@@ -23,8 +22,8 @@ const Blog = () => {
       } catch (err) {
         console.error('Error fetching posts:', err);
         setError(err.message);
-        // Fallback: use local blogPosts data
-        setPosts(blogPosts);
+        // Never present static example posts as if they came from the live database.
+        setPosts([]);
       } finally {
         setLoading(false);
       }

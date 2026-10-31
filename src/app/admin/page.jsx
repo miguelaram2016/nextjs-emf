@@ -4,11 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-// Password from env var - MUST be set in Vercel project settings
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '';
-
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [loggingIn, setLoggingIn] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
@@ -17,56 +16,60 @@ export default function AdminPage() {
 
   const router = useRouter();
 
-  // Check auth on mount
+  // Authorization is validated by the server, never by browser storage.
   useEffect(() => {
-    const auth = localStorage.getItem('elmar_admin_auth');
-    if (auth === 'true') {
-      setIsAuthenticated(true);
-      fetchPosts();
-    }
+    let active = true;
+    fetch('/api/admin/session', { cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : { authenticated: false })
+      .then((session) => {
+        if (!active) return;
+        setIsAuthenticated(session.authenticated === true);
+        if (session.authenticated) fetchPosts();
+      })
+      .catch(() => { if (active) setError('Could not verify admin session.'); })
+      .finally(() => { if (active) setCheckingSession(false); });
+    return () => { active = false; };
   }, []);
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/posts');
-      if (response.ok) {
-        const data = await response.json();
-        // Show ALL posts from Supabase
-        setPosts(data);
-        
-        // Also sync to localStorage as backup
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('elmar_blog_posts', JSON.stringify(data));
-        }
-      }
+      const response = await fetch('/api/posts', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Blog database unavailable. Posts cannot be managed right now.');
+      const data = await response.json();
+      setPosts(data);
+      setError('');
     } catch (err) {
       console.error('Error fetching posts:', err);
-      // Fallback to localStorage
-      const stored = localStorage.getItem('elmar_blog_posts');
-      if (stored) {
-        try {
-          setPosts(JSON.parse(stored));
-        } catch (e) {
-          console.error('Error parsing localStorage:', e);
-        }
-      }
+      setPosts([]);
+      setError('Blog database unavailable. Posts cannot be managed right now.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (!ADMIN_PASSWORD) {
-      setError('Admin password not configured');
-    } else if (password === ADMIN_PASSWORD) {
-      localStorage.setItem('elmar_admin_auth', 'true');
+    setLoggingIn(true);
+    setError('');
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (!response.ok) {
+        throw new Error(response.status === 503
+          ? 'Admin login has not been configured on the server.'
+          : 'Invalid credentials or login unavailable.');
+      }
+      setPassword('');
       setIsAuthenticated(true);
-      setError('');
-      fetchPosts();
-    } else {
-      setError('Invalid password');
+      await fetchPosts();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoggingIn(false);
     }
   };
 
@@ -102,11 +105,19 @@ export default function AdminPage() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('elmar_admin_auth');
-    setIsAuthenticated(false);
-    setPassword('');
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } finally {
+      setIsAuthenticated(false);
+      setPosts([]);
+      setPassword('');
+    }
   };
+  
+  if (checkingSession) {
+    return <div className="min-h-screen bg-gray-800 p-8 text-white">Checking admin session...</div>;
+  }
 
   if (!isAuthenticated) {
     return (
@@ -119,14 +130,17 @@ export default function AdminPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
+              autoComplete="current-password"
+              required
               className="w-full px-4 py-3 rounded bg-gray-600 text-white border border-gray-500 mb-4"
             />
             {error && <p className="text-red-400 mb-4">{error}</p>}
             <button
               type="submit"
+              disabled={loggingIn}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded"
             >
-              Login
+              {loggingIn ? "Signing in..." : "Login"}
             </button>
           </form>
           <Link href="/" className="block text-center text-gray-400 mt-4 hover:text-white">
@@ -218,8 +232,7 @@ export default function AdminPage() {
         {/* Info */}
         <div className="bg-gray-700 p-6 rounded-lg mt-6">
           <p className="text-gray-300">
-            Manage your blog posts here. Posts are saved to Vercel KV (Redis) when available, 
-            with localStorage as fallback for local development.
+            Manage published blog posts here. Server errors prevent saving or deleting posts; browser storage is not an authentication mechanism.
           </p>
         </div>
 

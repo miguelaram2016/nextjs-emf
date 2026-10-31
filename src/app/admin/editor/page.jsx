@@ -23,25 +23,40 @@ function EditorContent() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [existingPosts, setExistingPosts] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
 
   useEffect(() => {
-    // Check authentication
-    const auth = localStorage.getItem('elmar_admin_auth');
-    if (auth !== 'true') {
-      router.push('/admin');
-      return;
+    let active = true;
+    async function verifySession() {
+      try {
+        const response = await fetch('/api/admin/session', { cache: 'no-store' });
+        const session = response.ok ? await response.json() : { authenticated: false };
+        if (!active) return;
+        if (!session.authenticated) {
+          router.replace('/admin');
+          return;
+        }
+        setIsAuthenticated(true);
+        // Existing local copies are preserved for manual recovery only.
+        try {
+          const stored = localStorage.getItem('elmar_blog_posts');
+          if (stored) setExistingPosts(JSON.parse(stored));
+        } catch (err) {
+          console.error('Could not load local post copies:', err);
+        }
+        if (editSlug) loadPost(editSlug);
+      } catch (err) {
+        if (active) {
+          setError('Unable to verify your session.');
+          router.replace('/admin');
+        }
+      } finally {
+        if (active) setCheckingSession(false);
+      }
     }
-
-    // Load existing posts to check for duplicates
-    const stored = localStorage.getItem('elmar_blog_posts');
-    if (stored) {
-      setExistingPosts(JSON.parse(stored));
-    }
-
-    // If editing, load the post
-    if (editSlug) {
-      loadPost(editSlug);
-    }
+    verifySession();
+    return () => { active = false; };
   }, [editSlug, router]);
 
   const loadPost = async (slug) => {
@@ -111,6 +126,7 @@ function EditorContent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isAuthenticated) return;
     
     const slug = editSlug || generateSlug(formData.title);
     
@@ -127,9 +143,9 @@ function EditorContent() {
     setError(null);
 
     try {
-      // Try to save to API (KV)
-      const response = await fetch('/api/posts', {
-        method: 'POST',
+      // Save to the server; browser storage is not a published-post fallback.
+      const response = await fetch(editSlug ? `/api/posts/${encodeURIComponent(editSlug)}` : '/api/posts', {
+        method: editSlug ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -137,7 +153,7 @@ function EditorContent() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save to server');
+        throw new Error(response.status === 401 ? 'Session expired. Sign in again.' : response.status === 404 ? 'The article no longer exists on the server.' : response.status === 409 ? 'A post with that title already exists.' : 'Blog server rejected the save.');
       }
 
       // Also save to localStorage as backup
@@ -160,66 +176,40 @@ function EditorContent() {
       }, 2000);
     } catch (err) {
       console.error('Error saving post:', err);
-      
-      // Fallback to localStorage only
-      const stored = localStorage.getItem('elmar_blog_posts');
-      let posts = stored ? JSON.parse(stored) : [];
-      
-      const existingIndex = posts.findIndex(p => p.slug === slug);
-      if (existingIndex >= 0) {
-        posts[existingIndex] = postData;
-      } else {
-        posts.push(postData);
+      // Preserve work locally without claiming it was published.
+      try {
+        localStorage.setItem('elmar_blog_draft', JSON.stringify(postData));
+        setError(err.message + ' Unpublished draft saved in this browser.');
+      } catch {
+        setError(err.message + ' Please copy your text before leaving this page.');
       }
-      
-      localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
-      
-      setError('Saved to localStorage (server unavailable)');
-      setSaved(true);
-      
-      setTimeout(() => {
-        setSaved(false);
-        setError(null);
-      }, 3000);
+      setSaved(false);
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!editSlug) return;
-    
-    if (!confirm('Are you sure you want to delete this post?')) {
-      return;
-    }
-
+    if (!editSlug || !isAuthenticated) return;
+    if (!confirm('Are you sure you want to delete this post?')) return;
     try {
-      // Try to delete from API first
-      const response = await fetch(`/api/posts/${editSlug}`, {
-        method: 'DELETE',
-      });
-
-      // Also remove from localStorage
+      const response = await fetch(`/api/posts/${encodeURIComponent(editSlug)}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error(response.status === 401 ? 'Session expired. Sign in again.' : 'Server failed to delete post.');
       const stored = localStorage.getItem('elmar_blog_posts');
       if (stored) {
         const posts = JSON.parse(stored).filter(p => p.slug !== editSlug);
         localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
       }
-
       router.push('/admin');
     } catch (err) {
       console.error('Error deleting post:', err);
-      
-      // Fallback to localStorage
-      const stored = localStorage.getItem('elmar_blog_posts');
-      if (stored) {
-        const posts = JSON.parse(stored).filter(p => p.slug !== editSlug);
-        localStorage.setItem('elmar_blog_posts', JSON.stringify(posts));
-      }
-      
-      router.push('/admin');
+      setError(err.message);
     }
   };
+
+  if (checkingSession || !isAuthenticated) {
+    return <main className="min-h-screen bg-gray-800 p-8 text-white">Verifying admin session...</main>;
+  }
 
   // Simple markdown preview
   const renderPreview = () => {
