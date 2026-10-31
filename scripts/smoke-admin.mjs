@@ -76,6 +76,7 @@ try {
   await request('/api/posts', 503);
   await request('/api/posts', 401, { method: 'POST', body: '{}' });
   await request('/api/posts/synthetic-test', 401, { method: 'DELETE' });
+  await request('/api/posts/synthetic-test', 401, { method: 'PUT', body: '{}' });
 
   const loggedIn = await request('/api/admin/login', 200, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -93,12 +94,13 @@ try {
 
   await request('/api/posts', 503, { method: 'POST', headers: { Cookie: cookie, 'Content-Type': 'application/json' }, body: '{}' });
   await request('/api/posts/synthetic-test', 503, { method: 'DELETE', headers: { Cookie: cookie } });
+  await request('/api/posts/synthetic-test', 503, { method: 'PUT', headers: { Cookie: cookie, 'Content-Type': 'application/json' }, body: '{}' });
 
   const logout = await request('/api/admin/logout', 200, { method: 'POST', headers: { Cookie: cookie } });
   assert.equal((await logout.json()).authenticated, false);
   assert.match(logout.headers.get('set-cookie') || '', /max-age=0/i);
   await session(null, false);
-  console.log('PASS: 12 synthetic admin/API smoke checks (no external database writes)');
+  console.log('PASS: synthetic admin/API smoke tests (no external database writes)');
 } finally {
   child.kill('SIGTERM');
 }

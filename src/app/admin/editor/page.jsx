@@ -144,8 +144,8 @@ function EditorContent() {
 
     try {
       // Save to the server; browser storage is not a published-post fallback.
-      const response = await fetch('/api/posts', {
-        method: 'POST',
+      const response = await fetch(editSlug ? `/api/posts/${encodeURIComponent(editSlug)}` : '/api/posts', {
+        method: editSlug ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -153,7 +153,7 @@ function EditorContent() {
       });
 
       if (!response.ok) {
-        throw new Error(response.status === 401 ? 'Session expired. Sign in again.' : 'Blog server rejected the save.');
+        throw new Error(response.status === 401 ? 'Session expired. Sign in again.' : response.status === 404 ? 'The article no longer exists on the server.' : response.status === 409 ? 'A post with that title already exists.' : 'Blog server rejected the save.');
       }
 
       // Also save to localStorage as backup

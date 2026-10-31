@@ -59,6 +59,9 @@ export async function POST(request) {
       cache: 'no-store',
       signal: AbortSignal.timeout(10000)
     });
+    if (response.status === 409) {
+      return NextResponse.json({ error: 'Post slug already exists' }, { status: 409 });
+    }
     if (!response.ok) {
       console.error('Blog publish upstream HTTP status:', response.status);
       return NextResponse.json({ error: 'Failed to publish post' }, { status: 502 });
